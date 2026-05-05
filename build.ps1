@@ -18,14 +18,10 @@ function Install-Tools {
     Write-Host "[1/4] Downloading Pandoc..." -ForegroundColor Yellow
     $PandocExe = Join-Path $ToolsDir "pandoc.exe"
     if (-not (Test-Path $PandocExe)) {
-        $TempDeb = Join-Path $env:TEMP "pandoc.deb"
-        Invoke-WebRequest -Uri "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-1-amd64.deb" -OutFile $TempDeb
-        $TempExtract = Join-Path $env:TEMP "pandoc-extract"
-        New-Item -ItemType Directory -Path $TempExtract -Force | Out-Null
-        tar -xf $TempDeb -C $TempExtract
-        Copy-Item (Join-Path $TempExtract "pandoc-3.8.3-1-amd64\usr\bin\pandoc.exe") $PandocExe -Force
-        Remove-Item $TempDeb -Force -ErrorAction SilentlyContinue
-        Remove-Item $TempExtract -Recurse -Force -ErrorAction SilentlyContinue
+        $TempZip = Join-Path $env:TEMP "pandoc.zip"
+        Invoke-WebRequest -Uri "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-windows-x86_64.zip" -OutFile $TempZip
+        Expand-Archive -Path $TempZip -DestinationPath $ToolsDir -Force
+        Remove-Item $TempZip -Force -ErrorAction SilentlyContinue
         Write-Host "  Pandoc installed successfully." -ForegroundColor Green
     } else {
         Write-Host "  Pandoc already installed." -ForegroundColor Gray
@@ -102,7 +98,8 @@ function Build-Document {
         "article-docx" {
             Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
             Set-Location "article"
-            & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua
+            $pandocPath = Get-Command pandoc | Select-Object -ExpandProperty Source
+            & $pandocPath --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua
             Set-Location ..
         }
         "article-pdf" {
