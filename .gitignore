@@ -1,4 +1,5 @@
 pandoc-*
+.local/
 
 # Created by https://www.toptal.com/developers/gitignore/api/git,linux,macos,dotenv,windows,visualstudiocode,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,linux,macos,dotenv,windows,visualstudiocode,node

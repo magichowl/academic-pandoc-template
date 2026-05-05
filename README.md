@@ -38,11 +38,13 @@ Follow the [The Markdown Guide](https://www.markdownguide.org/) and make sure yo
 
 Install all prerequisites
 
+#### For Linux/Mac
+
 - [Make](https://www.gnu.org/software/make/)
 - [Pandoc](http://pandoc.org/installing.html)
 - [Tectonic](https://tectonic-typesetting.github.io/) or another [LaTeX](https://www.latex-project.org/get/) distribution
 
-Open your command line and execute on of the following commands.
+Open your command line and execute one of the following commands.
 
 - `make all` to build all documents
 - `make article` to build the article
@@ -52,6 +54,31 @@ Open your command line and execute on of the following commands.
 - `make thesis` to build the thesis
 - `make thesis-docx thesis-epub thesis-pdf thesis-tex` to build the thesis in different formats
 - `make help` to get a list of all available commands
+
+#### For Windows
+
+**Prerequisites**: 
+- [7-Zip](https://www.7-zip.org/) - Required for extracting downloaded tools
+
+1. **First time setup**: Run `setup.bat` to download and install required tools (Pandoc, Pandoc-crossref, Tectonic)
+
+2. **Build documents**: Open Command Prompt or PowerShell and use the build script:
+
+   - `build.bat article` to build the article
+   - `build.bat article-docx` to build article in DOCX format
+   - `build.bat article-pdf` to build article in PDF format
+   - `build.bat article-tex` to build article in TeX format
+   - `build.bat presentation` to build the presentation
+   - `build.bat thesis` to build the thesis
+   - `build.bat all` to build all documents
+   - `build.bat clean` to clean build artifacts
+
+   Or use PowerShell:
+   - `.\build.ps1 article`
+   - `.\build.ps1 all`
+   - `.\build.ps1 setup` (first time only)
+
+**Note**: You can also use the Git Bash or WSL (Windows Subsystem for Linux) to use the Make commands directly on Windows.
 
 ## Linting and formatting
 
