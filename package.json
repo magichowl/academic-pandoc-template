@@ -1,0 +1,24 @@
+{
+	"name": "academic-pandoc-template",
+	"version": "1.0.0",
+	"scripts": {
+		"check": "prettier --ignore-path .gitignore  --check . '!{CODE_OF_CONDUCT.md,LICENSE.md,_layouts/default.html}'",
+		"commit": "cz",
+		"format": "prettier --ignore-path .gitignore --write . '!{CODE_OF_CONDUCT.md,LICENSE.md,_layouts/default.html}'",
+		"prepare": "husky",
+		"changelog": "git-cliff --config .git-cliff.toml"
+	},
+	"devDependencies": {
+		"commitizen": "^4.3.1",
+		"cz-conventional-changelog": "^3.3.0",
+		"git-cliff": "^2.12.0",
+		"husky": "^9.1.7",
+		"prettier": "^3.8.1"
+	},
+	"type": "module",
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	}
+}
