@@ -4,7 +4,7 @@ author:
   - '[Eleanor Roosevelt](eleanor.eoosevelt@domain.com)'
   - '[John Peters Humphrey](jph@domain.com)'
 bibliography: references.bib # bibliography to use for resolving references
-csl: ../assets/csl/chicago-note-bibliography.csl
+csl: ../assets/csl/ieee.csl
 date: 1 January 2023
 keywords: # list of keywords to be included in HTML, PDF, ODT, pptx, docx and AsciiDoc metadata; repeat as for author, above
 lang: en-US
@@ -86,10 +86,19 @@ subject: # document subject, included in ODT, PDF, docx, EPUB, and pptx metadata
 
 # Heading 1
 
+1. 多行公式示例（LaTeX 语法）
+$$
+\begin{align}
+E &= mc^2 \label{eq:emc2} \\
+F &= ma \label{eq:newton} \\
+\int_{-\infty}^{\infty} e^{-x^2} dx &= \sqrt{\pi} \label{eq:gauss}
+\end{align}
+$$
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ## Heading 2
 
+参考文献引用示例[@brown2016].
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ### Heading 3

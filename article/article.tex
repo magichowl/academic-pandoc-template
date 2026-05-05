@@ -204,17 +204,28 @@ are born free and equal in dignity and rights.
 \listoftables
 \section{Heading 1}\label{heading-1}
 
-All human beings are born free and equal in dignity and rights. All
-human beings are born free and equal in dignity and rights. All human
-beings are born free and equal in dignity and rights. All human beings
-are born free and equal in dignity and rights.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  多行公式示例（LaTeX 语法）
+  \begin{align}
+  E &= mc^2 \label{eq:emc2} \\
+  F &= ma \label{eq:newton} \\
+  \int_{-\infty}^{\infty} e^{-x^2} dx &= \sqrt{\pi} \label{eq:gauss}
+  \end{align}
+  All human beings are born free and equal in dignity and rights. All
+  human beings are born free and equal in dignity and rights. All human
+  beings are born free and equal in dignity and rights. All human beings
+  are born free and equal in dignity and rights.
+\end{enumerate}
 
 \subsection{Heading 2}\label{heading-2}
 
-All human beings are born free and equal in dignity and rights. All
-human beings are born free and equal in dignity and rights. All human
-beings are born free and equal in dignity and rights. All human beings
-are born free and equal in dignity and rights.
+参考文献引用示例{[}1{]}. All human beings are born free and equal in
+dignity and rights. All human beings are born free and equal in dignity
+and rights. All human beings are born free and equal in dignity and
+rights. All human beings are born free and equal in dignity and rights.
 
 \subsubsection{Heading 3}\label{heading-3}
 
@@ -433,27 +444,29 @@ are born free and equal in dignity and rights.
 \begin{quote}
 All human beings are born free and equal in dignity and rights. They are
 endowed with reason and conscience and should act towards one another in
-a spirit of brotherhood. United Nations\footnote{\emph{Universal
-  Declaration of Human Rights} (1948).}
+a spirit of brotherhood. {[}2{]}
 \end{quote}
 
 All human beings are born free and equal in dignity and rights. All
 human beings are born free and equal in dignity and rights. All human
 beings are born free and equal in dignity and rights. All human beings
-are born free and equal in dignity and rights.\footnote{United Nations.}
+are born free and equal in dignity and rights.{[}2{]}
 
 \section{Bibliography}\label{bibliography}
 
 \protect\phantomsection\label{refs}
-\begin{CSLReferences}{1}{1}
+\begin{CSLReferences}{0}{0}
 \bibitem[\citeproctext]{ref-brown2016}
-Brown, Gordon, ed. \emph{The {Universal} {Declaration} of {Human}
-{Rights} in the 21st Century, a Living Document in a Changing World}.
-Cambridge, {[}New York{]}: Open Book Publishers ; NYU Global Institute
-for Advanced Study, 2016.
+\CSLLeftMargin{{[}1{]} }%
+\CSLRightInline{G. Brown, Ed., \emph{The {Universal} {Declaration} of
+{Human} {Rights} in the 21st century, a living document in a changing
+world}. Cambridge, {[}New York{]}: Open Book Publishers ; NYU Global
+Institute for Advanced Study, 2016.}
 
 \bibitem[\citeproctext]{ref-unitednations1948}
-United Nations. \emph{Universal Declaration of Human Rights}. 1948.
+\CSLLeftMargin{{[}2{]} }%
+\CSLRightInline{United Nations, \emph{Universal Declaration of Human
+Rights}. 1948.}
 
 \end{CSLReferences}
 

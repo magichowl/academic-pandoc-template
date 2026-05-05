@@ -10,7 +10,7 @@ all:
 
 article-docx:
 	(cd article && \
-	pandoc --defaults=./../defaults.yaml --defaults=docx.yaml)
+	pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua)
 
 article-pdf:
 	(cd article && \
