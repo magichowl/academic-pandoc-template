@@ -19,7 +19,24 @@ function Install-Tools {
     $PandocExe = Join-Path $ToolsDir "pandoc.exe"
     if (-not (Test-Path $PandocExe)) {
         $TempZip = Join-Path $env:TEMP "pandoc.zip"
-        Invoke-WebRequest -Uri "https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-windows-x86_64.zip" -OutFile $TempZip
+        $url = "https://ghproxy.com/https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-windows-x86_64.zip"
+        $success = $false
+        for ($i = 1; $i -le 3; $i++) {
+            try {
+                Invoke-WebRequest -Uri $url -OutFile $TempZip -ErrorAction Stop
+                $zip = New-Object System.IO.Compression.ZipArchive([IO.File]::OpenRead($TempZip))
+                $zip.Dispose()
+                $success = $true
+                break
+            } catch {
+                Write-Host "  Retry $i/3..." -ForegroundColor Yellow
+                Remove-Item $TempZip -ErrorAction SilentlyContinue
+            }
+        }
+        if (-not $success) {
+            Write-Host "  Download failed after 3 attempts" -ForegroundColor Red
+            exit 1
+        }
         Expand-Archive -Path $TempZip -DestinationPath $ToolsDir -Force
         Remove-Item $TempZip -Force -ErrorAction SilentlyContinue
         Write-Host "  Pandoc installed successfully." -ForegroundColor Green
@@ -32,7 +49,25 @@ function Install-Tools {
     $PandocRefExe = Join-Path $ToolsDir "pandoc-crossref.exe"
     if (-not (Test-Path $PandocRefExe)) {
         $TempTar = Join-Path $env:TEMP "pandoc-crossref.tar.xz"
-        Invoke-WebRequest -Uri "https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.22b/pandoc-crossref-Windows-X64.tar.xz" -OutFile $TempTar
+        $url = "https://ghproxy.com/https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.22b/pandoc-crossref-Windows-X64.tar.xz"
+        $success = $false
+        for ($i = 1; $i -le 3; $i++) {
+            try {
+                Invoke-WebRequest -Uri $url -OutFile $TempTar -ErrorAction Stop
+                if ((Get-Item $TempTar).Length -lt 1000) {
+                    throw "File too small"
+                }
+                $success = $true
+                break
+            } catch {
+                Write-Host "  Retry $i/3..." -ForegroundColor Yellow
+                Remove-Item $TempTar -ErrorAction SilentlyContinue
+            }
+        }
+        if (-not $success) {
+            Write-Host "  Download failed after 3 attempts" -ForegroundColor Red
+            exit 1
+        }
         tar -xf $TempTar -C $ToolsDir
         Remove-Item $TempTar -Force -ErrorAction SilentlyContinue
         Write-Host "  Pandoc-crossref installed successfully." -ForegroundColor Green
@@ -45,7 +80,24 @@ function Install-Tools {
     $TectonicExe = Join-Path $ToolsDir "tectonic.exe"
     if (-not (Test-Path $TectonicExe)) {
         $TempZip = Join-Path $env:TEMP "tectonic.zip"
-        Invoke-WebRequest -Uri "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.16.9/tectonic-0.16.9-x86_64-pc-windows-gnu.zip" -OutFile $TempZip
+        $url = "https://ghproxy.com/https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.16.9/tectonic-0.16.9-x86_64-pc-windows-gnu.zip"
+        $success = $false
+        for ($i = 1; $i -le 3; $i++) {
+            try {
+                Invoke-WebRequest -Uri $url -OutFile $TempZip -ErrorAction Stop
+                $zip = New-Object System.IO.Compression.ZipArchive([IO.File]::OpenRead($TempZip))
+                $zip.Dispose()
+                $success = $true
+                break
+            } catch {
+                Write-Host "  Retry $i/3..." -ForegroundColor Yellow
+                Remove-Item $TempZip -ErrorAction SilentlyContinue
+            }
+        }
+        if (-not $success) {
+            Write-Host "  Download failed after 3 attempts" -ForegroundColor Red
+            exit 1
+        }
         Expand-Archive -Path $TempZip -DestinationPath $ToolsDir -Force
         Remove-Item $TempZip -Force -ErrorAction SilentlyContinue
         Write-Host "  Tectonic installed successfully." -ForegroundColor Green
