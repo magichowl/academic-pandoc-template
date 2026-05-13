@@ -238,15 +238,20 @@ function Show-Help {
     Write-Host "  .\build.ps1 setup" -ForegroundColor Cyan
 }
 
-$Target = $args[0]
+$Targets = $args
 
-if (-not $Target) {
+if (-not $Targets -or $Targets.Count -eq 0) {
     Show-Help
     exit 0
 }
 
-switch ($Target) {
-    "help" { Show-Help }
-    "setup" { Install-Tools }
-    default { Build-Document -Target $Target }
+foreach ($Target in $Targets) {
+    switch ($Target) {
+        "help" { 
+            Show-Help 
+            exit 0
+        }
+        "setup" { Install-Tools }
+        default { Build-Document -Target $Target }
+    }
 }

@@ -77,6 +77,37 @@ Open your command line and execute one of the following commands.
    - `.\build.ps1 article`
    - `.\build.ps1 all`
    - `.\build.ps1 setup` (first time only)
+   - `.\build.ps1 article-docx article-pdf article-tex` (build multiple targets at once)
+
+**PowerShell Build Script (`build.ps1`) Targets**:
+
+| Target | Description |
+|--------|-------------|
+| `article` | Build article (docx, pdf, tex) |
+| `article-docx` | Build article in DOCX format |
+| `article-pdf` | Build article in PDF format |
+| `article-tex` | Build article in TeX format |
+| `presentation` | Build presentation |
+| `thesis` | Build thesis |
+| `all` | Build all documents |
+| `clean` | Clean build artifacts |
+| `help` | Show help message |
+| `setup` | Install required tools (Pandoc, Pandoc-crossref, Tectonic) |
+
+**Note**: You can pass multiple targets at once, e.g., `.\build.ps1 article-docx article-pdf`.
+
+**build.ps1 vs build.bat**:
+
+| Feature | `build.bat` | `build.ps1` |
+|---------|-------------|-------------|
+| **Language** | Batch script | PowerShell script |
+| **Tool Installation** | ❌ No | ✅ Yes (`setup` target) |
+| **Error Handling** | Basic | Advanced (retry mechanism) |
+| **Color Output** | ❌ No | ✅ Yes |
+| **Multi-target Build** | ❌ No | ✅ Yes |
+| **Background Image Support** | ❌ No | ✅ Yes (for presentations) |
+
+**Recommendation**: Use `build.ps1` for full functionality including tool installation, better error handling, and multi-target builds. Use `build.bat` only if you have all tools pre-installed and need minimal overhead.
 
 **Note**: You can also use the Git Bash or WSL (Windows Subsystem for Linux) to use the Make commands directly on Windows.
 
