@@ -9,15 +9,16 @@
 [![DOI](https://zenodo.org/badge/139726344.svg)](https://zenodo.org/badge/latestdoi/139726344)
 
 <!-- prettier-ignore -->
-| from md | [article](article/article.md) | [presentation](presentation/presentation.md) | [thesis](thesis/00.md) |
-| :--- | :-----: | :-----: | :-----: |
-| | [![](assets/images/article.png)](article/article.md) | [![](assets/images/presentation.png)](presentation/presentation.md) | [![](assets/images/thesis.png)](thesis/00.md) |
-| to html | | [![](assets/images/presentation-html.png)](presentation/presentation.html) | |
-| to docx | [![](assets/images/article-docx.png)](article/article.docx) | | [![](assets/images/thesis-docx.png)](thesis/thesis.pdf) |
-| to epub | | | [![](assets/images/thesis-epub.png)](thesis/thesis.epub) |
-| to pdf | [![](assets/images/article-pdf.png)](article/article.pdf) | [![](assets/images/presentation-pdf.png)](presentation/presentation.pdf) | [![](assets/images/thesis-pdf.png)](thesis/thesis.pdf) |
-| to pptx | | [![](assets/images/presentation-pptx.png)](presentation/presentation.pptx) | |
-| to tex | [![](assets/images/article-tex.png)](article/article.tex) | [![](assets/images/presentation-tex.png)](presentation/presentation.tex) | [![](assets/images/thesis-tex.png)](thesis/thesis.tex) |
+
+| from md |                [article](article/article.md)                |                [presentation](presentation/presentation.md)                |                  [thesis](thesis/00.md)                  |
+| :------ | :---------------------------------------------------------: | :------------------------------------------------------------------------: | :------------------------------------------------------: |
+| <br />  |     [![](assets/images/article.png)](article/article.md)    |     [![](assets/images/presentation.png)](presentation/presentation.md)    |       [![](assets/images/thesis.png)](thesis/00.md)      |
+| to html |                            <br />                           | [![](assets/images/presentation-html.png)](presentation/presentation.html) |                          <br />                          |
+| to docx | [![](assets/images/article-docx.png)](article/article.docx) |                                   <br />                                   |  [![](assets/images/thesis-docx.png)](thesis/thesis.pdf) |
+| to epub |                            <br />                           |                                   <br />                                   | [![](assets/images/thesis-epub.png)](thesis/thesis.epub) |
+| to pdf  |  [![](assets/images/article-pdf.png)](article/article.pdf)  |  [![](assets/images/presentation-pdf.png)](presentation/presentation.pdf)  |  [![](assets/images/thesis-pdf.png)](thesis/thesis.pdf)  |
+| to pptx |                            <br />                           | [![](assets/images/presentation-pptx.png)](presentation/presentation.pptx) |                          <br />                          |
+| to tex  |  [![](assets/images/article-tex.png)](article/article.tex)  |  [![](assets/images/presentation-tex.png)](presentation/presentation.tex)  |  [![](assets/images/thesis-tex.png)](thesis/thesis.tex)  |
 
 ## Getting Started
 
@@ -57,13 +58,12 @@ Open your command line and execute one of the following commands.
 
 #### For Windows
 
-**Prerequisites**: 
+**Prerequisites**:
+
 - [7-Zip](https://www.7-zip.org/) - Required for extracting downloaded tools
 
 1. **First time setup**: Run `setup.bat` to download and install required tools (Pandoc, Pandoc-crossref, Tectonic)
-
 2. **Build documents**: Open Command Prompt or PowerShell and use the build script:
-
    - `build.bat article` to build the article
    - `build.bat article-docx` to build article in DOCX format
    - `build.bat article-pdf` to build article in PDF format
@@ -72,40 +72,33 @@ Open your command line and execute one of the following commands.
    - `build.bat thesis` to build the thesis
    - `build.bat all` to build all documents
    - `build.bat clean` to clean build artifacts
-
    Or use PowerShell:
-   - `.\build.ps1 article`
-   - `.\build.ps1 all`
-   - `.\build.ps1 setup` (first time only)
-   - `.\build.ps1 article-docx article-pdf article-tex` (build multiple targets at once)
 
-**PowerShell Build Script (`build.ps1`) Targets**:
-
-| Target | Description |
-|--------|-------------|
-| `article` | Build article (docx, pdf, tex) |
-| `article-docx` | Build article in DOCX format |
-| `article-pdf` | Build article in PDF format |
-| `article-tex` | Build article in TeX format |
-| `presentation` | Build presentation |
-| `thesis` | Build thesis |
-| `all` | Build all documents |
-| `clean` | Clean build artifacts |
-| `help` | Show help message |
-| `setup` | Install required tools (Pandoc, Pandoc-crossref, Tectonic) |
+| Target         | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| `article`      | Build article (docx, pdf, tex)                             |
+| `article-docx` | Build article in DOCX format                               |
+| `article-pdf`  | Build article in PDF format                                |
+| `article-tex`  | Build article in TeX format                                |
+| `presentation` | Build presentation                                         |
+| `thesis`       | Build thesis                                               |
+| `all`          | Build all documents                                        |
+| `clean`        | Clean build artifacts                                      |
+| `help`         | Show help message                                          |
+| `setup`        | Install required tools (Pandoc, Pandoc-crossref, Tectonic) |
 
 **Note**: You can pass multiple targets at once, e.g., `.\build.ps1 article-docx article-pdf`.
 
 **build.ps1 vs build.bat**:
 
-| Feature | `build.bat` | `build.ps1` |
-|---------|-------------|-------------|
-| **Language** | Batch script | PowerShell script |
-| **Tool Installation** | ❌ No | ✅ Yes (`setup` target) |
-| **Error Handling** | Basic | Advanced (retry mechanism) |
-| **Color Output** | ❌ No | ✅ Yes |
-| **Multi-target Build** | ❌ No | ✅ Yes |
-| **Background Image Support** | ❌ No | ✅ Yes (for presentations) |
+| Feature                      | `build.bat`  | `build.ps1`                |
+| ---------------------------- | ------------ | -------------------------- |
+| **Language**                 | Batch script | PowerShell script          |
+| **Tool Installation**        | ❌ No         | ✅ Yes (`setup` target)     |
+| **Error Handling**           | Basic        | Advanced (retry mechanism) |
+| **Color Output**             | ❌ No         | ✅ Yes                      |
+| **Multi-target Build**       | ❌ No         | ✅ Yes                      |
+| **Background Image Support** | ❌ No         | ✅ Yes (for presentations)  |
 
 **Recommendation**: Use `build.ps1` for full functionality including tool installation, better error handling, and multi-target builds. Use `build.bat` only if you have all tools pre-installed and need minimal overhead.
 
@@ -213,5 +206,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-- Sarah Simpkin, "Getting Started with Markdown," _Programming Historian_ 4 (2015), [https://doi.org/10.46430/phen0046](https://doi.org/10.46430/phen0046).
-- Dennis Tenen and Grant Wythoff, "Sustainable Authorship in Plain Text using Pandoc and Markdown," _Programming Historian_ 3 (2014), [https://doi.org/10.46430/phen0041](https://doi.org/10.46430/phen0041).
+- Sarah Simpkin, "Getting Started with Markdown," _Programming Historian_ 4 (2015), <https://doi.org/10.46430/phen0046>.
+- Dennis Tenen and Grant Wythoff, "Sustainable Authorship in Plain Text using Pandoc and Markdown," _Programming Historian_ 3 (2014), <https://doi.org/10.46430/phen0041>.
+
