@@ -132,7 +132,10 @@ function Install-Tools {
 }
 
 function Build-Document {
-    param([string]$Target)
+    param(
+        [string]$Target,
+        [string]$ContentFile = ""
+    )
 
     $env:PATH = "$ToolsDir;$env:PATH"
 
@@ -169,10 +172,50 @@ function Build-Document {
         "presentation" {
             Write-Host "[Building presentation...]" -ForegroundColor Yellow
             Set-Location "presentation"
-            & pandoc --defaults=./../defaults.yaml --defaults=html.yaml
-            & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml
-            & pandoc --defaults=./../defaults.yaml --defaults=pptx.yaml
-            & pandoc --defaults=./../defaults.yaml --defaults=tex.yaml
+            
+            $currentDir = Get-Location
+            $baseDir = Split-Path $PSScriptRoot -Parent
+            
+            if ($ContentFile -eq "") {
+                $ContentFile = "content.md"
+            } else {
+                $fileName = Split-Path $ContentFile -Leaf
+                $testPath = Join-Path $currentDir $fileName
+                if (Test-Path $testPath) {
+                    $ContentFile = $fileName
+                } else {
+                    $testPath = Join-Path $baseDir "presentation\$fileName"
+                    if (Test-Path $testPath) {
+                        $ContentFile = $testPath
+                    } else {
+                        Write-Host "  Error: File not found: $fileName" -ForegroundColor Red
+                        Write-Host "  Please ensure the file exists in the presentation directory." -ForegroundColor Yellow
+                        Pop-Location
+                        exit 1
+                    }
+                }
+            }
+            
+            Write-Host "  Using content file: $ContentFile" -ForegroundColor Cyan
+            
+            Write-Host "  Building HTML..." -ForegroundColor Yellow
+            $pandocPath = Get-Command pandoc | Select-Object -ExpandProperty Source
+            & $pandocPath --defaults=./../defaults.yaml --defaults=html.yaml -f markdown -o presentation.html metadata.yaml $ContentFile
+            Set-Location ..
+            
+            Set-Location "presentation"
+            Write-Host "  Building PDF..." -ForegroundColor Yellow
+            & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml -f markdown -o presentation.pdf metadata.yaml $ContentFile
+            Set-Location ..
+            
+            Set-Location "presentation"
+            Write-Host "  Building PPTX..." -ForegroundColor Yellow
+            & pandoc --defaults=./../defaults.yaml --defaults=pptx.yaml -f markdown -o presentation.pptx metadata.yaml $ContentFile
+            Set-Location ..
+            
+            Set-Location "presentation"
+            Write-Host "  Building TeX..." -ForegroundColor Yellow
+            & pandoc --defaults=./../defaults.yaml --defaults=tex.yaml -f markdown -o presentation.tex metadata.yaml $ContentFile
             Set-Location ..
         }
         "thesis" {
@@ -218,7 +261,7 @@ function Build-Document {
 }
 
 function Show-Help {
-    Write-Host "Usage: .\build.ps1 [target]" -ForegroundColor Cyan
+    Write-Host "Usage: .\build.ps1 [target] [options]" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "Available targets:" -ForegroundColor White
     Write-Host "  article        - Build article (docx, pdf, tex)"
@@ -230,11 +273,17 @@ function Show-Help {
     Write-Host "  all            - Build all documents"
     Write-Host "  clean          - Clean build artifacts"
     Write-Host "  help           - Show this help message"
-    Write-Host "  setup           - Install required tools"
+    Write-Host "  setup          - Install required tools"
+    Write-Host ""
+    Write-Host "Presentation options:" -ForegroundColor White
+    Write-Host "  .\build.ps1 presentation              - Build with default content.md"
+    Write-Host "  .\build.ps1 presentation myfile.md  - Build with custom content file"
     Write-Host ""
     Write-Host "Examples:" -ForegroundColor White
     Write-Host "  .\build.ps1 article" -ForegroundColor Cyan
     Write-Host "  .\build.ps1 all" -ForegroundColor Cyan
+    Write-Host "  .\build.ps1 presentation" -ForegroundColor Cyan
+    Write-Host "  .\build.ps1 presentation myslides.md" -ForegroundColor Cyan
     Write-Host "  .\build.ps1 setup" -ForegroundColor Cyan
 }
 
@@ -245,13 +294,25 @@ if (-not $Targets -or $Targets.Count -eq 0) {
     exit 0
 }
 
-foreach ($Target in $Targets) {
+$i = 0
+while ($i -lt $Targets.Count) {
+    $Target = $Targets[$i]
+    
     switch ($Target) {
         "help" { 
             Show-Help 
             exit 0
         }
         "setup" { Install-Tools }
+        "presentation" {
+            $ContentFile = ""
+            if ($i + 1 -lt $Targets.Count -and -not $Targets[$i + 1].StartsWith("-")) {
+                $ContentFile = $Targets[$i + 1]
+                $i++
+            }
+            Build-Document -Target "presentation" -ContentFile $ContentFile
+        }
         default { Build-Document -Target $Target }
     }
+    $i++
 }
