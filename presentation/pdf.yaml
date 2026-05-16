@@ -1,7 +1,7 @@
-input-files: [metadata.yaml, content.md]
+input-files: [metadata.yaml]
 log-file: presentation.log
 output-file: presentation.pdf
 slide-level: 2
-pdf-engine: tectonic # wkhtmltopdf, weasyprint, prince, pdflatex, lualatex, xelatex, latexmk, pdfroff, context, tectonic
+pdf-engine: tectonic
 to: beamer
 shift-heading-level-by: 0

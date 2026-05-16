@@ -76,18 +76,59 @@ Open your command line and execute one of the following commands.
 
 | Target         | Description                                                |
 | -------------- | ---------------------------------------------------------- |
-| `article`      | Build article (docx, pdf, tex)                             |
-| `article-docx` | Build article in DOCX format                               |
-| `article-pdf`  | Build article in PDF format                                |
-| `article-tex`  | Build article in TeX format                                |
-| `presentation` | Build presentation                                         |
-| `thesis`       | Build thesis                                               |
-| `all`          | Build all documents                                        |
-| `clean`        | Clean build artifacts                                      |
-| `help`         | Show help message                                          |
+| `article`      | Build article (docx, pdf, tex) [alias: `a`]                 |
+| `article-docx` | Build article in DOCX format                                |
+| `article-pdf`  | Build article in PDF format                                 |
+| `article-tex`  | Build article in TeX format                                 |
+| `presentation` | Build presentation [alias: `p`, `pt`]                      |
+| `thesis`       | Build thesis [alias: `t`]                                  |
+| `all`          | Build all documents                                         |
+| `clean`        | Clean build artifacts                                       |
+| `help`         | Show help message                                           |
 | `setup`        | Install required tools (Pandoc, Pandoc-crossref, Tectonic) |
 
 **Note**: You can pass multiple targets at once, e.g., `.\build.ps1 article-docx article-pdf`.
+
+**Article/a Build Features** (build.ps1 only):
+
+| Feature                    | Description                                                       |
+| ------------------------- | ----------------------------------------------------------------- |
+| **Single Format Output**   | Build only one format: `.\build.ps1 a --pdf`                      |
+| **Multiple Format Flags**  | Build specific formats: `.\build.ps1 a --docx --tex`              |
+| **Format Options**        | `--docx`, `--pdf`, `--tex`                                        |
+
+**Presentation/pt Build Features** (build.ps1 only):
+
+| Feature                    | Description                                                       |
+| ------------------------- | ----------------------------------------------------------------- |
+| **Custom Input File**     | Build with any markdown file: `.\build.ps1 pt myslides.md`        |
+| **Smart Output Naming**   | Output files named after input file (e.g., `myslides.html`, `myslides.pdf`) |
+| **Single Format Output**   | Build only one format: `.\build.ps1 pt --pdf`                     |
+| **Multiple Format Flags**  | Build specific formats: `.\build.ps1 pt --html --tex`             |
+| **Format Options**        | `--html`, `--pdf`, `--pptx`, `--tex`                             |
+
+**Examples**:
+```powershell
+# Build article (all formats)
+.\build.ps1 article
+.\build.ps1 a
+
+# Build article with specific formats
+.\build.ps1 a --pdf
+.\build.ps1 article --docx --tex
+
+# Build presentation with default content.md
+.\build.ps1 presentation
+.\build.ps1 p
+
+# Build presentation with custom file and auto-generated output names
+.\build.ps1 presentation myslides.md
+# Creates: myslides.html, myslides.pdf, myslides.pptx, myslides.tex
+
+# Build presentation with specific formats
+.\build.ps1 pt --pdf
+.\build.ps1 p mylecture.md --html --tex
+```
 
 **build.ps1 vs build.bat**:
 
@@ -121,7 +162,14 @@ npm run format
 
 ## Configuration
 
-Change the [variables](https://pandoc.org/MANUAL.html#variables) in the frontmatter in [article/article.md](article/article.md), [presentation/presentation.md](presentation/presentation.md) or [thesis/00.md](thesis/00.md) to configure your document.
+Change the [variables](https://pandoc.org/MANUAL.html#variables) in the frontmatter in [article/article.md](article/article.md) or [thesis/00.md](thesis/00.md) to configure your document.
+
+For presentations, the metadata and content are separated into two files for better organization:
+
+- [presentation/metadata.yaml](presentation/metadata.yaml) - Document metadata (title, author, date, theme settings, etc.)
+- [presentation/content.md](presentation/content.md) - Main content of the presentation
+
+You can build presentations with any custom markdown file using the build script. See the **Presentation/pt Build Features** section above for details.
 
 ```yaml
 author:

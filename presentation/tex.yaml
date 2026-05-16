@@ -1,6 +1,5 @@
-input-files: [metadata.yaml, content.md]
+input-files: [metadata.yaml]
 log-file: presentation.log
 output-file: presentation.tex
 slide-level: 2
-to: latex
-shift-heading-level-by: 0
+to: beamer
