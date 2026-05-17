@@ -1,123 +1,16 @@
-﻿-- 宏展开过滤器
--- 支持从外部文件读取宏定义，同时保留内置宏作为后备
+﻿-- Macro expansion filter
+-- Uses built-in macro definitions, does not load external files
 
--- 内置宏定义（作为后备）
-local builtin_macros = {
-  ["\\x"] = "\\mathbf{x}",
-  ["\\X"] = "\\mathbf{X}",
-  ["\\loss"] = "\\mathcal{L}",
-  ["\\func"] = {"f(%1,%2,%3)", 3},
+local macros = {
   ["\\add"] = {"%1 + %2", 2},
+  ["\\func"] = {"f(%1,%2,%3)", 3},
+  ["\\loss"] = "\\mathcal{L}",
+  ["\\mat"] = {"\\mathbf{%1}", 1},
   ["\\mult"] = {"%1 \\times %2", 2},
   ["\\vec"] = {"\\mathbf{%1}", 1},
-  ["\\mat"] = {"\\mathbf{%1}", 1},
+  ["\\X"] = "\\mathbf{X}",
+  ["\\x"] = "\\mathbf{x}",
 }
-
-local macros = {}
-local macros_loaded = false
-
-function find_matching_brace_full(str, start_pos)
-  local depth = 1
-  local pos = start_pos + 1
-  while pos <= #str and depth > 0 do
-    local char = str:sub(pos, pos)
-    if char == '{' then depth = depth + 1
-    elseif char == '}' then depth = depth - 1 end
-    pos = pos + 1
-  end
-  return pos - 1
-end
-
-function parse_newcommand(line)
-  local name_start = line:find("\\newcommand%s*{%s*\\")
-  if not name_start then return nil end
-  
-  local name_start = name_start + #("\\newcommand{")
-  local name_end = line:find("}", name_start)
-  if not name_end then return nil end
-  
-  local name = "\\" .. line:sub(name_start, name_end - 1):gsub("%s+", "")
-  
-  local num_params = 0
-  local pos = name_end + 1
-  
-  while pos <= #line and line:sub(pos, pos):match("%s") do
-    pos = pos + 1
-  end
-  
-  if line:sub(pos, pos) == "[" then
-    local num_end = line:find("]", pos)
-    if num_end then
-      num_params = tonumber(line:sub(pos + 1, num_end - 1)) or 0
-      pos = num_end + 1
-    end
-  end
-  
-  while pos <= #line and line:sub(pos, pos):match("%s") do
-    pos = pos + 1
-  end
-  
-  if line:sub(pos, pos) ~= '{' then return nil end
-  
-  local body_end = find_matching_brace_full(line, pos)
-  if not body_end then return nil end
-  
-  local body = line:sub(pos + 1, body_end - 1)
-  local expanded_body = body:gsub("#(%d)", "%%%1")
-  
-  return name, num_params, expanded_body
-end
-
-function load_macros_from_file(filepath)
-  local file = io.open(filepath, "r")
-  if not file then return false end
-  
-  local content = file:read("*all")
-  file:close()
-  
-  for line in content:gmatch("[^\r\n]+") do
-    line = line:gsub("%%.*", ""):gsub("^%s+", ""):gsub("%s+$", "")
-    
-    if line:match("^\\newcommand") then
-      local name, num_params, body = parse_newcommand(line)
-      
-      if name then
-        if num_params == 0 then
-          macros[name] = body
-        else
-          macros[name] = {body, num_params}
-        end
-      end
-    end
-  end
-  
-  return true
-end
-
-function ensure_macros_loaded()
-  if macros_loaded then return end
-  
-  -- 首先复制内置宏
-  for k, v in pairs(builtin_macros) do
-    macros[k] = v
-  end
-  
-  -- 尝试加载外部宏定义文件（会覆盖内置宏）
-  local paths = {
-    "macros.tex",
-    "./macros.tex",
-    "../article/macros.tex",
-    "f:/academic-pandoc-template/article/macros.tex"
-  }
-  
-  for _, path in ipairs(paths) do
-    if load_macros_from_file(path) then
-      break
-    end
-  end
-  
-  macros_loaded = true
-end
 
 function find_matching_brace(str, start_pos)
   local depth = 1
@@ -244,8 +137,6 @@ function expand_macros(text)
 end
 
 function Math(elem)
-  ensure_macros_loaded()
-  
   if elem.text then
     elem.text = expand_macros(elem.text)
   end
