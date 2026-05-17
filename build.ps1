@@ -108,7 +108,7 @@ function Build-Document {
             "article-docx" {
                 Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
                 Set-Location "article"
-                & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua
+                & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
                 Set-Location ..
             }
             "article-pdf" {

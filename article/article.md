@@ -50,6 +50,15 @@ header-includes: # contents specified by -H/--include-in-header (may have multip
       Dontyoueverhyphenateme
     }%
     ```
+  - |
+    ```{=latex}
+    % 在导言区定义全局符号命令
+    \usepackage{xargs}  % 支持可选参数的命令
+    \newcommand{\x}{\mathbf{x}}
+    \newcommand{\X}{\mathbf{X}}
+    \newcommand{\loss}{\mathcal{L}}
+    \newcommand{\func}[4]{f(#1,#2,#3,#4)}
+    ```
 hyperrefoptions: # option for hyperref package, e.g. linktoc=all; repeat for multiple options:
 include-before: # contents specified by -B/--include-before-body (may have multiple values)
 include-after: # contents specified by -A/--include-after-body (may have multiple values)
@@ -90,11 +99,41 @@ subject: # document subject, included in ODT, PDF, docx, EPUB, and pptx metadata
 $$
 \begin{align}
 E &= mc^2 \label{eq:emc2} \\
-F &= ma \label{eq:newton} \\
+F &= ma \label{eqnewton} \\
 \int_{-\infty}^{\infty} e^{-x^2} dx &= \sqrt{\pi} \label{eq:gauss}
 \end{align}
 $$
-All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+引用公式\ref{eqnewton}. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+
+2. 测试向量和矩阵符号（使用自定义宏）
+$$
+\x \quad \X \quad \loss
+$$
+
+3. 测试函数定义
+$$
+\func{x}{y}{z}{\theta}
+$$
+
+4. 组合测试
+$$
+\loss = \sum_{i=1}^{n} \func{\x_i}{\X_i}{\theta}{\theta}
+$$
+
+5. 测试单参数宏
+$$
+\vec{v} \quad \mat{A}
+$$
+
+6. 测试双参数宏
+$$
+\add{a}{b} \quad \mult{x}{y}
+$$
+
+7. 测试可变参数宏
+$$
+\sumlist{a}{b}{c}{d} \quad \prodlist{1}{2}{3}
+$$
 
 ## Heading 2
 
@@ -105,9 +144,13 @@ All human beings are born free and equal in dignity and rights. All human beings
 
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
+测试带编号的多行公式
+
+$$ \begin{equation} \begin{aligned} \sin^2 x + \cos^2 x &= 1 \\ \tan x &= \frac{\sin x}{\cos x} \end{aligned} \label{tri} \end{equation} $$	
+
 #### Heading 4
 
-All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+Test equation reference \ref{tri}.  All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ## Bold
 

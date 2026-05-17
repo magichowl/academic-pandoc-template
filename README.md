@@ -77,15 +77,27 @@ Open your command line and execute one of the following commands.
 | Target         | Description                                                |
 | -------------- | ---------------------------------------------------------- |
 | `article`      | Build article (docx, pdf, tex) [alias: `a`]                 |
-| `article-docx` | Build article in DOCX format                                |
-| `article-pdf`  | Build article in PDF format                                 |
-| `article-tex`  | Build article in TeX format                                 |
+| `article-docx` | Build article in DOCX format [alias: `ad`]                  |
+| `article-pdf`  | Build article in PDF format [alias: `ap`]                   |
+| `article-tex`  | Build article in TeX format [alias: `at`]                   |
 | `presentation` | Build presentation [alias: `p`, `pt`]                      |
 | `thesis`       | Build thesis [alias: `t`]                                  |
 | `all`          | Build all documents                                         |
 | `clean`        | Clean build artifacts                                       |
 | `help`         | Show help message                                           |
 | `setup`        | Install required tools (Pandoc, Pandoc-crossref, Tectonic) |
+
+**Quick Shortcuts** (build.ps1 only):
+
+| Shortcut | Equivalent Command | Description |
+| -------- | ----------------- | ----------- |
+| `ad` | `article-docx` | Build article DOCX |
+| `ap` | `article-pdf` | Build article PDF |
+| `at` | `article-tex` | Build article TeX |
+| `ph` | `p --html` | Build presentation HTML |
+| `pd` | `p --pdf` | Build presentation PDF |
+| `pp` | `p --pptx` | Build presentation PPTX |
+| `px` | `p --tex` | Build presentation TeX |
 
 **Note**: You can pass multiple targets at once, e.g., `.\build.ps1 article-docx article-pdf`.
 
@@ -115,7 +127,8 @@ Open your command line and execute one of the following commands.
 
 # Build article with specific formats
 .\build.ps1 a --pdf
-.\build.ps1 article --docx --tex
+.\build.ps1 a --docx --tex
+.\build.ps1 ad
 
 # Build presentation with default content.md
 .\build.ps1 presentation
@@ -128,6 +141,15 @@ Open your command line and execute one of the following commands.
 # Build presentation with specific formats
 .\build.ps1 pt --pdf
 .\build.ps1 p mylecture.md --html --tex
+
+# Use quick shortcuts for even faster builds
+.\build.ps1 ad          # Build article DOCX
+.\build.ps1 ap          # Build article PDF
+.\build.ps1 at          # Build article TeX
+.\build.ps1 ph          # Build presentation HTML
+.\build.ps1 pp          # Build presentation PPTX
+.\build.ps1 pd          # Build presentation PDF
+.\build.ps1 px          # Build presentation TeX
 ```
 
 **build.ps1 vs build.bat**:
