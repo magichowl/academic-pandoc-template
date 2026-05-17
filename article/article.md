@@ -7,7 +7,7 @@ bibliography: references.bib # bibliography to use for resolving references
 csl: ../assets/csl/ieee.csl
 date: 1 January 2023
 keywords: # list of keywords to be included in HTML, PDF, ODT, pptx, docx and AsciiDoc metadata; repeat as for author, above
-lang: en-US
+lang: zh-CN
 nocite: |
   @brown2016
 references:

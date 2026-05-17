@@ -399,24 +399,40 @@ function Build-Document {
                 Set-Location "article"
                 $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
                 $env:PATH = "$ProjectDir\.local\bin;$env:PATH"
-                $outputFile = "article.pdf"
+                $articleDir = (Get-Location).Path
+                $outputFile = Join-Path $articleDir "article.pdf"
                 Remove-Item $outputFile -Force -ErrorAction SilentlyContinue
+                $headerFile = "$env:TEMP\header.tex"
+                $macrosContent = Get-Content (Join-Path $ProjectDir "article\macros.tex") -Raw
+                $macrosContent = $macrosContent -replace '%.*$', ''
+                $macrosContent = $macrosContent -replace '(?m)^$', ''
+                $macrosContent = $macrosContent.Trim()
+                @"
+\usepackage{fontspec}
+\setmainfont{SimSun}
+$macrosContent
+"@ | Set-Content -Path $headerFile -Encoding UTF8
                 $oldErrorAction = $ErrorActionPreference
                 $ErrorActionPreference = "Continue"
-                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml --output=$outputFile 2>&1 | Out-Null
+                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml --output=$outputFile --include-in-header="$headerFile" 2>&1 | Out-Null
                 $ErrorActionPreference = $oldErrorAction
                 Start-Sleep -Seconds 3
                 if (-not (Test-Path $outputFile)) {
                     Write-Host "  PDF not in current dir, checking temp..." -ForegroundColor Cyan
                     $tempDirs = Get-ChildItem -Path "$env:TEMP" -Filter "media-*" -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+                    $pdfCopied = $false
                     foreach ($dir in $tempDirs) {
-                        $tempPdf = Get-ChildItem -Path $dir.FullName -Filter "texput.pdf" -ErrorAction SilentlyContinue
+                        $tempPdf = Get-ChildItem -Path $dir.FullName -Filter "*.pdf" -ErrorAction SilentlyContinue | Select-Object -First 1
                         if ($tempPdf) {
                             Write-Host "  Found temp PDF: $($tempPdf.FullName)" -ForegroundColor Cyan
                             Copy-Item -Path $tempPdf.FullName -Destination $outputFile -Force
                             Write-Host "  Copied to $outputFile" -ForegroundColor Green
+                            $pdfCopied = $true
                             break
                         }
+                    }
+                    if (-not $pdfCopied) {
+                        Write-Host "  Error: PDF not found in temp directories" -ForegroundColor Red
                     }
                 }
                 Set-Location ..
