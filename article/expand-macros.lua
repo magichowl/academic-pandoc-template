@@ -7,7 +7,6 @@ local macros = {
   ["\\loss"] = "\\mathcal{L}",
   ["\\mat"] = {"\\mathbf{%1}", 1},
   ["\\mult"] = {"%1 \\times %2", 2},
-  ["\\vec"] = {"\\mathbf{%1}", 1},
   ["\\X"] = "\\mathbf{X}",
   ["\\x"] = "\\mathbf{x}",
 }

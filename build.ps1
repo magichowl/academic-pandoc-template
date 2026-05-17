@@ -4,6 +4,11 @@ $ErrorActionPreference = "Stop"
 $ProjectDir = $PSScriptRoot
 $ToolsDir = Join-Path $ProjectDir ".local\bin"
 
+$env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
+if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
+    New-Item -Path $env:TECTONIC_CACHE_DIR -ItemType Directory -Force | Out-Null
+}
+
 function Invoke-Download {
     param(
         [string]$Name,
@@ -387,8 +392,33 @@ function Build-Document {
             "article-pdf" {
                 Sync-Macros-TexToLua
                 Write-Host "[Building article PDF...]" -ForegroundColor Yellow
+                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
+                if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
+                    New-Item -Path $env:TECTONIC_CACHE_DIR -ItemType Directory -Force | Out-Null
+                }
                 Set-Location "article"
-                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml
+                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
+                $env:PATH = "$ProjectDir\.local\bin;$env:PATH"
+                $outputFile = "article.pdf"
+                Remove-Item $outputFile -Force -ErrorAction SilentlyContinue
+                $oldErrorAction = $ErrorActionPreference
+                $ErrorActionPreference = "Continue"
+                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml --output=$outputFile 2>&1 | Out-Null
+                $ErrorActionPreference = $oldErrorAction
+                Start-Sleep -Seconds 3
+                if (-not (Test-Path $outputFile)) {
+                    Write-Host "  PDF not in current dir, checking temp..." -ForegroundColor Cyan
+                    $tempDirs = Get-ChildItem -Path "$env:TEMP" -Filter "media-*" -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+                    foreach ($dir in $tempDirs) {
+                        $tempPdf = Get-ChildItem -Path $dir.FullName -Filter "texput.pdf" -ErrorAction SilentlyContinue
+                        if ($tempPdf) {
+                            Write-Host "  Found temp PDF: $($tempPdf.FullName)" -ForegroundColor Cyan
+                            Copy-Item -Path $tempPdf.FullName -Destination $outputFile -Force
+                            Write-Host "  Copied to $outputFile" -ForegroundColor Green
+                            break
+                        }
+                    }
+                }
                 Set-Location ..
             }
             "article-tex" {
@@ -428,6 +458,10 @@ function Build-Document {
                 Write-Host "  Output base name: $outputBaseName" -ForegroundColor Cyan
                 
                 $formats = if ($Format -eq "all") { @("html", "pdf", "pptx", "tex") } else { $Format -split "," }
+                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
+                if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
+                    New-Item -Path $env:TECTONIC_CACHE_DIR -ItemType Directory -Force | Out-Null
+                }
                 foreach ($f in $formats) {
                     Write-Host "  Building $($f.ToUpper())..." -ForegroundColor Yellow
                     & pandoc --defaults=./../defaults.yaml --defaults=$f.yaml -f markdown -o "${outputBaseName}.$f" metadata.yaml $ContentFile
