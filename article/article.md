@@ -52,12 +52,8 @@ header-includes: # contents specified by -H/--include-in-header (may have multip
     ```
   - |
     ```{=latex}
-    % 在导言区定义全局符号命令
-    \usepackage{xargs}  % 支持可选参数的命令
-    \newcommand{\x}{\mathbf{x}}
-    \newcommand{\X}{\mathbf{X}}
-    \newcommand{\loss}{\mathcal{L}}
-    \newcommand{\func}[4]{f(#1,#2,#3,#4)}
+    % 引入外部宏定义文件
+    \input{macros.tex}
     ```
 hyperrefoptions: # option for hyperref package, e.g. linktoc=all; repeat for multiple options:
 include-before: # contents specified by -B/--include-before-body (may have multiple values)
@@ -112,12 +108,12 @@ $$
 
 3. 测试函数定义
 $$
-\func{x}{y}{z}{\theta}
+\func{x}{y}{z}
 $$
 
 4. 组合测试
 $$
-\loss = \sum_{i=1}^{n} \func{\x_i}{\X_i}{\theta}{\theta}
+\loss = \sum_{i=1}^{n} \func{\x_i}{\X_i}{\theta}
 $$
 
 5. 测试单参数宏
@@ -128,11 +124,6 @@ $$
 6. 测试双参数宏
 $$
 \add{a}{b} \quad \mult{x}{y}
-$$
-
-7. 测试可变参数宏
-$$
-\sumlist{a}{b}{c}{d} \quad \prodlist{1}{2}{3}
 $$
 
 ## Heading 2
