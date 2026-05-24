@@ -219,6 +219,125 @@ Change the [default files](https://pandoc.org/MANUAL.html#defaults-files) to you
 - [thesis/pdf.yaml](thesis/pdf.yaml) for the thesis pdf configuration
 - [thesis/tex.yaml](thesis/tex.yaml) for the thesis tex configuration
 
+## Crossref References
+
+This template uses [pandoc-crossref](https://lierdakil.github.io/pandoc-crossref/) to handle cross-references for equations, figures, and tables. Configuration is done in the YAML frontmatter.
+
+### Equation References
+
+In your markdown file, use `{#eq:label}` after the closing `$$` of equation blocks:
+
+```markdown
+$$
+\begin{align}
+E &= mc^2 \\
+F &= ma
+\end{align}
+$${#eq:emc2}
+
+引用公式[@eq:emc2].
+```
+
+Build with the docx format to generate numbered equations with right-aligned references:
+
+```powershell
+.\build.ps1 article-docx
+# or
+.\build.ps1 ad
+```
+
+### Figure and Table References
+
+```markdown
+![Caption](image.png){#fig:id}
+
+Table: Caption {#tbl:id}
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Data     | Data     |
+
+图[@fig:id]展示了示例。图[@fig:id]展示了示例。
+
+Table [@tbl:id] shows the data.
+```
+
+### Configuration Options
+
+These options can be set in the YAML frontmatter:
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `tableEqns` | Use table layout for equations | `false` |
+| `linkReferences` | Generate hyperlinks for references | `false` |
+| `nameInLink` | Include reference name in link | `false` |
+| `eqnPrefixTemplate` | Template for equation number prefix | `($$i$$)` |
+| `figureTitle` | Title for figures | `"Figure"` |
+| `tableTitle` | Title for tables | `"Table"` |
+
+### Chinese Configuration Example
+
+```yaml
+lang: zh-CN
+tableEqns: true
+linkReferences: true
+nameInLink: true
+eqnPrefixTemplate: ($$i$$)
+figureTitle: "图"
+tableTitle: "表"
+figPrefix:
+  - "图"
+  - "图集"
+eqnPrefix:
+  - "公式"
+```
+
+## LaTeX Macros
+
+This template supports LaTeX macros that can be used in both markdown math blocks and are automatically expanded in PDF output.
+
+### Available Macros
+
+The following macros are pre-defined:
+
+| Macro | LaTeX | Example |
+|-------|-------|---------|
+| `\x` | `\mathbf{x}` | `$\x$` → **x** |
+| `\X` | `\mathbf{X}` | `$\X$` → **X** |
+| `\loss` | `\mathcal{L}` | `$\loss$` → ℒ |
+| `\mat{A}` | `\mathbf{#1}` | `$\mat{A}$` → **A** |
+| `\add{a}{b}` | `#1 + #2` | `$\add{a}{b}$` → a + b |
+| `\mult{x}{y}` | `#1 \times #2` | `$\mult{x}{y}$` → x × y |
+| `\func{x}{y}{z}` | `f(#1,#2,#3)` | `$\func{1}{2}{3}$` → f(1,2,3) |
+
+### Usage in Markdown
+
+Use macros directly in math blocks:
+
+```markdown
+$$
+\loss = \sum_{i=1}^{n} \func{\x_i}{\X_i}{\theta}
+$$
+```
+
+### Adding Custom Macros
+
+To add new macros, edit `article/macros.tex` and add new `\newcommand` definitions:
+
+```latex
+% In article/macros.tex
+\newcommand{\add}[2]{#1 + #2}
+\newcommand{\myvec}[1]{\mathbf{#1}}
+```
+
+The `build.ps1` script automatically regenerates `expand-macros.lua` from `macros.tex` before each build. Then rebuild:
+
+```powershell
+.\build.ps1 article-pdf
+# or
+.\build.ps1 ap
+```
+
 ## Conventional Commits
 
 Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for adding human and machine readable meaning to commit messages. To use [commitizen](https://github.com/commitizen/cz-cli), use the following commands.
