@@ -3,6 +3,7 @@
 $ErrorActionPreference = "Stop"
 $ProjectDir = $PSScriptRoot
 $ToolsDir = Join-Path $ProjectDir ".local\bin"
+$PandocDefaults = "$PandocDefaults"
 
 $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
 if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
@@ -326,7 +327,7 @@ function Build-Document {
             "article-docx" {
                 Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
                 Set-Location "article"
-                & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
+                & pandoc $PandocDefaults --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
                 Write-Host "[Fixing equation table layout...]" -ForegroundColor Yellow
                 python fix_table_eqns.py article.docx article.docx
                 Set-Location ..
@@ -334,13 +335,7 @@ function Build-Document {
             "article-pdf" {
                 Sync-Macros-TexToLua
                 Write-Host "[Building article PDF...]" -ForegroundColor Yellow
-                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
-                if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
-                    New-Item -Path $env:TECTONIC_CACHE_DIR -ItemType Directory -Force | Out-Null
-                }
                 Set-Location "article"
-                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
-                $env:PATH = "$ProjectDir\.local\bin;$env:PATH"
                 $articleDir = (Get-Location).Path
                 $outputFile = Join-Path $articleDir "article.pdf"
                 Remove-Item $outputFile -Force -ErrorAction SilentlyContinue
@@ -356,7 +351,7 @@ $macrosContent
 "@ | Set-Content -Path $headerFile -Encoding UTF8
                 $oldErrorAction = $ErrorActionPreference
                 $ErrorActionPreference = "Continue"
-                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml --output=$outputFile --include-in-header="$headerFile" 2>&1 | Out-Null
+                & pandoc $PandocDefaults --defaults=pdf.yaml --output=$outputFile --include-in-header="$headerFile" 2>&1 | Out-Null
                 $ErrorActionPreference = $oldErrorAction
                 Start-Sleep -Seconds 3
                 if (-not (Test-Path $outputFile)) {
@@ -382,7 +377,7 @@ $macrosContent
             "article-tex" {
                 Write-Host "[Building article TeX...]" -ForegroundColor Yellow
                 Set-Location "article"
-                & pandoc --defaults=./../defaults.yaml --defaults=tex.yaml
+                & pandoc $PandocDefaults --defaults=tex.yaml
                 Set-Location ..
             }
             "presentation" {
@@ -416,23 +411,19 @@ $macrosContent
                 Write-Host "  Output base name: $outputBaseName" -ForegroundColor Cyan
                 
                 $formats = if ($Format -eq "all") { @("html", "pdf", "pptx", "tex") } else { $Format -split "," }
-                $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
-                if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
-                    New-Item -Path $env:TECTONIC_CACHE_DIR -ItemType Directory -Force | Out-Null
-                }
                 foreach ($f in $formats) {
                     Write-Host "  Building $($f.ToUpper())..." -ForegroundColor Yellow
-                    & pandoc --defaults=./../defaults.yaml --defaults=$f.yaml -f markdown -o "${outputBaseName}.$f" metadata.yaml $ContentFile
+                    & pandoc $PandocDefaults --defaults=$f.yaml -f markdown -o "${outputBaseName}.$f" metadata.yaml $ContentFile
                 }
                 Set-Location ..
             }
             "thesis" {
                 Write-Host "[Building thesis...]" -ForegroundColor Yellow
                 Set-Location "thesis"
-                & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml
-                & pandoc --defaults=./../defaults.yaml --defaults=epub.yaml
-                & pandoc --defaults=./../defaults.yaml --defaults=pdf.yaml
-                & pandoc --defaults=./../defaults.yaml --defaults=tex.yaml
+                & pandoc $PandocDefaults --defaults=docx.yaml
+                & pandoc $PandocDefaults --defaults=epub.yaml
+                & pandoc $PandocDefaults --defaults=pdf.yaml
+                & pandoc $PandocDefaults --defaults=tex.yaml
                 Set-Location ..
             }
             "all" {
