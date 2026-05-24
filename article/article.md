@@ -8,6 +8,25 @@ csl: ../assets/csl/ieee.csl
 date: 1 January 2023
 keywords: # list of keywords to be included in HTML, PDF, ODT, pptx, docx and AsciiDoc metadata; repeat as for author, above
 lang: zh-CN
+# 适用于 DOCX 的选项（生成超链接）
+linkReferences: true
+nameInLink: true # 非必需，但强烈推荐以获得最佳体验
+# 适用于 PDF (LaTeX) 的选项（生成超链接）
+hyperref: true
+# 为引用文本添加括号
+eqnPrefixTemplate: ($$i$$)
+# 自定义标题语言 (Title)
+figureTitle: "图"
+tableTitle: "表"
+listingTitle: "代码清单"
+# 自定义引用前缀 (Prefix)
+figPrefix:
+  - "图"
+  - "图集"
+tblPrefix:
+  - "Table"
+eqnPrefix:
+  - "公式"
 nocite: |
   @brown2016
 references:
@@ -94,12 +113,12 @@ subject: # document subject, included in ODT, PDF, docx, EPUB, and pptx metadata
 1. 多行公式示例（LaTeX 语法）
 $$
 \begin{align}
-E &= mc^2 \label{eq:emc2} \\
-F &= ma \label{eqnewton} \\
-\int_{-\infty}^{\infty} e^{-x^2} dx &= \sqrt{\pi} \label{eq:gauss}
+E &= mc^2 \\
+F &= ma \\
+\int_{-\infty}^{\infty} e^{-x^2} dx &= \sqrt{\pi} 
 \end{align}
-$$
-引用公式\ref{eqnewton}. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+$${#eq:gauss}
+引用公式[@eq:gauss]. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 2. 测试向量和矩阵符号（使用自定义宏）
 $$
@@ -124,12 +143,12 @@ $$
 6. 测试双参数宏
 $$
 \add{a}{b} \quad \mult{x}{y}
-$$
+$${#eq:add_mult}
 
 ## Heading 2
 
 参考文献引用示例[@brown2016].
-All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+All human beings are born free and equal in dignity and rights, crossref [@eq:add_mult]. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ### Heading 3
 
@@ -137,11 +156,11 @@ All human beings are born free and equal in dignity and rights. All human beings
 
 测试带编号的多行公式
 
-$$ \begin{equation} \begin{aligned} \sin^2 x + \cos^2 x &= 1 \\ \tan x &= \frac{\sin x}{\cos x} \end{aligned} \label{tri} \end{equation} $$	
+$$ \begin{equation} \begin{aligned} \sin^2 x + \cos^2 x &= 1 \\ \tan x &= \frac{\sin x}{\cos x} \end{aligned}\end{equation} $${#eq:tri}	
 
 #### Heading 4
 
-Test equation reference \ref{tri}.  All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+Test equation reference [@eq:tri].  All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ## Bold
 
@@ -187,9 +206,9 @@ All human beings are born free and equal in dignity and rights. All human beings
 
 ## Figures and captions
 
-![Eleanor Roosevelt hält die englische Version der Allgemeinen Erklärung der Menschenrechte (FDR Presidential Library & Museum, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons)](images/Eleanor_Roosevelt_and_Human_Rights_Declaration.jpeg)
+![Eleanor Roosevelt hält die englische Version der Allgemeinen Erklärung der Menschenrechte (FDR Presidential Library & Museum, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons)](images/Eleanor_Roosevelt_and_Human_Rights_Declaration.jpeg){#fig:example_fig}
 
-All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+All human beings are born free and equal in dignity and rights, crossref [@fig:example_fig]. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ## Code
 
@@ -214,9 +233,9 @@ All human beings are born free and equal in dignity and rights. All human beings
 | All human beings are born free and equal in dignity and rights. | All human beings are born free and equal in dignity and rights. |
 | All human beings are born free and equal in dignity and rights. | All human beings are born free and equal in dignity and rights. |
 
-: Table caption
+: Table caption {#tbl:example_tbl}
 
-All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+All human beings are born free and equal in dignity and rights, crossref [@tbl:example_tbl]. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ## Footnotes
 
