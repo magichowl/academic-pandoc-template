@@ -8,13 +8,11 @@ csl: ../assets/csl/ieee.csl
 date: 1 January 2023
 keywords: # list of keywords to be included in HTML, PDF, ODT, pptx, docx and AsciiDoc metadata; repeat as for author, above
 lang: zh-CN
-# 适用于 DOCX 的选项（生成超链接）
-linkReferences: true
+tableEqns: true # 使用表格排版公式，后处理修复列宽
+linkReferences: true # 适用于 DOCX 的选项（生成超链接）
 nameInLink: true # 非必需，但强烈推荐以获得最佳体验
-# 适用于 PDF (LaTeX) 的选项（生成超链接）
-hyperref: true
-# 为引用文本添加括号
-eqnPrefixTemplate: ($$i$$)
+hyperref: true # 适用于 PDF (LaTeX) 的选项（生成超链接）
+eqnPrefixTemplate: ($$i$$) # 为引用文本添加括号
 # 自定义标题语言 (Title)
 figureTitle: "图"
 tableTitle: "表"
