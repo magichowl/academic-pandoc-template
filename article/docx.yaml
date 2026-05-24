@@ -1,5 +1,7 @@
 filters:
   - pandoc-crossref
+  - citeproc
+  - ../assets/cite-links.lua
 input-files: [article.md]
 log-file: article.log
 output-file: article.docx

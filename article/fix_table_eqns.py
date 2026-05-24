@@ -38,11 +38,28 @@ def fix_equation_tables(input_path, output_path=None):
 
         print(f"修复了 {fixed_count} 个公式表格")
 
-        # 4. 写回
+        # 4. 禁止 Word 弹出"是否更新域"提示
+        settings_path = os.path.join(tmp, 'word', 'settings.xml')
+        if os.path.exists(settings_path):
+            with open(settings_path, 'r', encoding='utf-8') as f:
+                settings_xml = f.read()
+            # 添加 updateFields，让 Word 自动更新域而不弹窗
+            if '<w:updateFields' not in settings_xml:
+                settings_xml = re.sub(
+                    r'(<w:settings[^>]*>)',
+                    r'\1<w:updateFields w:val="true"/>',
+                    settings_xml)
+                with open(settings_path, 'w', encoding='utf-8') as f:
+                    f.write(settings_xml)
+                print("已禁用域更新提示")
+        else:
+            print("settings.xml 不存在，跳过域更新设置")
+
+        # 5. 写回
         with open(xml_path, 'w', encoding='utf-8') as f:
             f.write(xml)
 
-        # 5. 重新打包
+        # 6. 重新打包
         with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zout:
             for root, dirs, files in os.walk(tmp):
                 for fname in files:

@@ -3,7 +3,7 @@
 $ErrorActionPreference = "Stop"
 $ProjectDir = $PSScriptRoot
 $ToolsDir = Join-Path $ProjectDir ".local\bin"
-$PandocDefaults = "$PandocDefaults"
+$PandocDefaults = "--defaults=../defaults.yaml"
 
 $env:TECTONIC_CACHE_DIR = "$env:TEMP\TectonicCache"
 if (-not (Test-Path $env:TECTONIC_CACHE_DIR)) {
@@ -329,7 +329,7 @@ function Build-Document {
                 Sync-Macros-TexToLua
                 Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
                 Set-Location "article"
-                & pandoc $PandocDefaults --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
+                & pandoc $PandocDefaults --defaults=docx.yaml --lua-filter=expand-macros.lua
                 Write-Host "[Fixing equation table layout...]" -ForegroundColor Yellow
                 python fix_table_eqns.py article.docx article.docx
                 Set-Location ..
