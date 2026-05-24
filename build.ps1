@@ -387,6 +387,8 @@ function Build-Document {
                 Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
                 Set-Location "article"
                 & pandoc --defaults=./../defaults.yaml --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
+                Write-Host "[Fixing equation table layout...]" -ForegroundColor Yellow
+                python fix_table_eqns.py article.docx article.docx
                 Set-Location ..
             }
             "article-pdf" {
