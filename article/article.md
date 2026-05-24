@@ -7,7 +7,7 @@ bibliography: references.bib # bibliography to use for resolving references
 csl: ../assets/csl/ieee.csl
 date: 1 January 2023
 keywords: # list of keywords to be included in HTML, PDF, ODT, pptx, docx and AsciiDoc metadata; repeat as for author, above
-lang: zh-CN
+lang: zh-Hans
 tableEqns: true # 使用表格排版公式，后处理修复列宽
 linkReferences: true # 适用于 DOCX 的选项（生成超链接）
 nameInLink: true # 非必需，但强烈推荐以获得最佳体验
@@ -22,7 +22,7 @@ figPrefix:
   - "图"
   - "图集"
 tblPrefix:
-  - "Table"
+  - "表"
 eqnPrefix:
   - "公式"
 nocite: |

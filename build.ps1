@@ -303,7 +303,8 @@ function Math(elem)
 end
 '@
     
-    Set-Content -Path $luaFile -Value $luaContent -Encoding UTF8
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($luaFile, $luaContent, $utf8NoBom)
     Write-Host "  Macros synced to $luaFile" -ForegroundColor Green
 }
 
@@ -325,6 +326,7 @@ function Build-Document {
                 foreach ($f in $formats) { & Build-Document -Target "article-$f" }
             }
             "article-docx" {
+                Sync-Macros-TexToLua
                 Write-Host "[Building article DOCX...]" -ForegroundColor Yellow
                 Set-Location "article"
                 & pandoc $PandocDefaults --defaults=docx.yaml --lua-filter=../assets/cite-links.lua --lua-filter=expand-macros.lua
