@@ -1,3 +1,5 @@
+filters:
+  - pandoc-crossref
 input-files: [article.md]
 log-file: article.log
 output-file: article.docx
