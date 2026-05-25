@@ -1,5 +1,3 @@
-filters:
-  - citeproc
 input-files: [article.md]
 log-file: article.log
 output-file: article.pdf

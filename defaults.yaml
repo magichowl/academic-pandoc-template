@@ -1,4 +1,5 @@
 cite-method: citeproc # citeproc, natbib, or biblatex
+citeproc: true
 embed-resources: true
 file-scope: false # Parse each file individually before combining for multifile documents. This will allow footnotes in different files with working footnotes and links across files if disabled.
 from: markdown

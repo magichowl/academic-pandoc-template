@@ -1,5 +1,3 @@
-filters:
-  - citeproc
 input-files: [metadata.yaml]
 log-file: presentation.log
 output-file: presentation.tex

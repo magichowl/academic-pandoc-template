@@ -1,8 +1,8 @@
 filters:
   - pandoc-crossref
+  - filters/theorem-numbering.lua
   - filters/multiple-bibliographies.lua
   - filters/pandoc-quotes.lua
-  - citeproc
 input-files:
   - 00.md
   - 00_Introduction.md
