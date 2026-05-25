@@ -219,6 +219,40 @@ Change the [default files](https://pandoc.org/MANUAL.html#defaults-files) to you
 - [thesis/pdf.yaml](thesis/pdf.yaml) for the thesis pdf configuration
 - [thesis/tex.yaml](thesis/tex.yaml) for the thesis tex configuration
 
+## Citation Styles
+
+This template bundles several [Citation Style Language (CSL)](https://citationstyles.org/) files in [assets/csl/](assets/csl/) for different use cases. Configure the `csl` field in your document's YAML frontmatter to select one.
+
+### Available Styles
+
+| File | Style | Use Case |
+|------|-------|----------|
+| `chicago-note-bibliography.csl` | Chicago (Note & Bibliography) | Humanities, history, arts |
+| `chicago-author-date.csl` | Chicago (Author-Date) | Sciences, social sciences |
+| `ieee.csl` | IEEE (numeric) | Engineering, computer science |
+| `gb-t-7714-2015-numeric.csl` | GB/T 7714-2015 (numeric, bilingual) | Chinese academic papers |
+| `gb-t-7714-numeric.csl` | GB/T 7714 (numeric) | Chinese academic papers (basic) |
+
+### Setting the Citation Style
+
+Set the `csl` field in your document's YAML frontmatter:
+
+```yaml
+# For article
+csl: ../assets/csl/chicago-note-bibliography.csl
+
+# For Chinese papers
+csl: ../assets/csl/gb-t-7714-2015-numeric.csl
+```
+
+### Adding Custom Styles
+
+Download additional CSL files from the [CSL Style Repository](https://github.com/citation-style-language/styles) and place them in `assets/csl/`. Then update your document's `csl` field accordingly.
+
+```yaml
+csl: ../assets/csl/apa.csl
+```
+
 ## Crossref References
 
 This template uses [pandoc-crossref](https://lierdakil.github.io/pandoc-crossref/) to handle cross-references for equations, figures, and tables. Configuration is done in the YAML frontmatter.
