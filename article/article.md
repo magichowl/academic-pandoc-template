@@ -106,7 +106,7 @@ description: # document description, included in ODT, docx and pptx metadata. So
 subject: # document subject, included in ODT, PDF, docx, EPUB, and pptx metadata
 ---
 
-# Heading 1
+# Heading 1 {#sec:intro}
 
 1. 多行公式示例（LaTeX 语法）
 $$
@@ -249,11 +249,33 @@ All human beings are born free and equal in dignity and rights. All human beings
 
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
-## Scientific citations
+## Scientific citations {#sec:citations}
 
 > All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood. @unitednations1948
 
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.[@unitednations1948]
+
+## Theorems, Lemmas, and Definitions {#sec:theorems}
+
+The [theorem-numbering.lua](theorem-numbering.lua) filter provides automatic numbering and cross-referencing for theorem-like environments. See section [@sec:intro] and section [@sec:citations] for context.
+
+::: {.definition #def:human_rights}
+Human rights are moral principles that describe certain standards of human behaviour and are regularly protected as legal rights in national and international law.
+:::
+
+All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+
+::: {.lemma #lem:equality}
+If all human beings are born free and equal in dignity and rights, then every person has the inherent right to freedom from discrimination.
+:::
+
+All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
+
+::: {.theorem #thm:universal}
+The principle of universality ensures that every human being, regardless of nationality, ethnicity, or any other status, is entitled to the same fundamental rights.
+:::
+
+According to [@thm:universal], the universality of human rights is a fundamental principle. Building on [@def:human_rights] and [@lem:equality], we can establish a comprehensive framework for human rights protection. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 # Bibliography
 

@@ -1,8 +1,10 @@
 filters:
   - pandoc-crossref
+  - theorem-numbering.lua
   - citeproc
   - ../assets/cite-links.lua
 input-files: [article.md]
 log-file: article.log
+number-sections: true
 output-file: article.docx
 to: docx
