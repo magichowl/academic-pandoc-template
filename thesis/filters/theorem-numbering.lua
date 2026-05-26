@@ -52,6 +52,9 @@ function Pandoc(doc)
         local prefix = info.title .. " " .. info.num
         if #blk.content > 0 and blk.content[1].t == "Header" then
           blk.content[1].content = {pandoc.Str(prefix)}
+        elseif #blk.content > 0 and blk.content[1].t == "Para" then
+          table.insert(blk.content[1].content, 1, pandoc.Space())
+          table.insert(blk.content[1].content, 1, pandoc.Strong{pandoc.Str(prefix)})
         else
           table.insert(blk.content, 1, pandoc.Para{
             pandoc.Strong{pandoc.Str(prefix)}

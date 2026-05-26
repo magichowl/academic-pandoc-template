@@ -129,15 +129,14 @@ Human rights are moral principles that describe certain standards of human behav
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ::: {.lemma #lem:equality}
-### Lemma
 If all human beings are born free and equal in dignity and rights, then every person has the inherent right to freedom from discrimination.
 :::
 
 All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
 
 ::: {.theorem #thm:universal}
-### Theorem
 The principle of universality ensures that every human being, regardless of nationality, ethnicity, or any other status, is entitled to the same fundamental rights.
 :::
+
 
 According to [@thm:universal], the universality of human rights is a fundamental principle. Building on [@def:human_rights] and [@lem:equality], we can establish a comprehensive framework for human rights protection. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights. All human beings are born free and equal in dignity and rights.
